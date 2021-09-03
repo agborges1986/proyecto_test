@@ -7,9 +7,9 @@ from .models import User
 
 # Create your views here.
 def login(request):
-    return render(request, 'login.html')
+    return render(request, 'login/login.html')
 def registrar(request):
-    return render(request, 'registro.html')
+    return render(request, 'login/registro.html')
 
 def inicio(request):
     usuario = User.objects.filter(email=request.POST['email'])
@@ -20,7 +20,7 @@ def inicio(request):
             messages.error(request, msg)
         return redirect('/')
     else:
-        request.session['user_id'] = usuario[0].id
+        request.session['id'] = usuario[0].id
         return redirect('home/')
 
 def registro(request):
@@ -39,21 +39,21 @@ def registro(request):
         #crear usuario
         if request.POST['rol'] == '1':
             user = User.objects.create(
-                nombre=request.POST['nombre'],
-                apellido=request.POST['apellido'],
+                name=request.POST['name'],
+                last_name=request.POST['last_name'],
                 email=request.POST['email'],
                 password=decode_hash_pw,
                 rol=1,
             )
         else:
             user = User.objects.create(
-                nombre=request.POST['nombre'],
-                apellido=request.POST['apellido'],
+                name=request.POST['name'],
+                last_name=request.POST['last_name'],
                 email=request.POST['email'],
                 password=decode_hash_pw,
                 rol=2,
             )
-        request.session['user_id'] = user.id
+        request.session['id'] = user.id
     return redirect('home/')
 
 def logout(request):
