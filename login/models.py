@@ -1,4 +1,5 @@
 from django.db import models
+from home.models import *
 import re
 import bcrypt
 
@@ -62,65 +63,8 @@ class User(models.Model):
         db_table = 'user'
 
 
-class Employees(models.Model):
-    name = models.CharField(max_length=45, blank=True, null=True)
-    last_name = models.CharField(max_length=45, blank=True, null=True)
-    position = models.CharField(max_length=45, blank=True, null=True)
-    area = models.CharField(max_length=45, blank=True, null=True)
-    create_at = models.DateTimeField(blank=True, null=True)
-    update_at = models.DateTimeField(blank=True, null=True)
-    active = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'employees'
 
 
-class Tools(models.Model):
-    name = models.CharField(max_length=45, blank=True, null=True)
-    serie = models.CharField(max_length=30, blank=True, null=True)
-    model = models.CharField(max_length=45, blank=True, null=True)
-    provider = models.CharField(max_length=45, blank=True, null=True)
-    cost = models.IntegerField(blank=True, null=True)
-    create_at = models.DateTimeField(blank=True, null=True)
-    active = models.TextField(blank=True, null=True)  # This field type is a guess.
-
-    class Meta:
-        managed = False
-        db_table = 'tools'
-
-
-class MovesType(models.Model):
-    type = models.CharField(max_length=45, blank=True, null=True)
-    create_at = models.DateTimeField(blank=True, null=True)
-    update_at = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'moves_type'
-
-
-class Roles(models.Model):
-    description = models.CharField(max_length=45, blank=True, null=True)
-    create_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-    user_email = models.CharField(max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = 'roles'
-
-class Moves(models.Model):
-    move_type_id = models.ForeignKey(MovesType,related_name='moves_type_has_tools', on_delete=models.CASCADE) #models.IntegerField()
-    tool_id = models.ForeignKey(Tools,related_name='moves_type_has_tools', on_delete=models.CASCADE)#models.IntegerField()
-    employee_id =models.ForeignKey(Employees,related_name='moves_type_has_tools', on_delete=models.CASCADE) #models.PositiveIntegerField()
-    user_email = models.CharField(max_length=255)
-    create_at = models.DateTimeField(blank=True, null=True)
-    description = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'moves_type_has_tools'
 
 
 

@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from time import gmtime, strftime
+from login.models import *
 import bcrypt
 
-from .models import User
+
 
 # Create your views here.
 def login(request):
@@ -14,6 +15,8 @@ def registrar(request):
 def inicio(request):
     usuario = User.objects.filter(email=request.POST['email'])
     errores = User.objects.validar_login(request.POST, usuario)
+    employee=Employee.objects.all()
+
 
     if len(errores) > 0:
         for key, msg in errores.items():
