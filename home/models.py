@@ -4,6 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Employee(models.Model):
+
     id = models.AutoField(db_column='id',primary_key=True)
     name = models.CharField(max_length=45, blank=True, null=True)
     last_name = models.CharField(max_length=45, blank=True, null=True)
@@ -29,7 +30,7 @@ class Tool(models.Model):
     provider = models.CharField(max_length=45, blank=True, null=True)
     cost = models.IntegerField(blank=True, null=True)
     create_at = models.DateTimeField(blank=True, null=True)
-    active = models.BooleanField(default=True)  # This field type is a guess.
+    active = models.BooleanField(default=True) 
 
     def __str__(self):
         return 'N°: '+self.serie+'-'+self.name

@@ -1,36 +1,37 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block body %}
+{% extends 'base.html' %} {% load static %} {% block body %}
+
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-{% include 'navbar.html' %}
-
-{% include 'sidebar.html' %}
-
-{% block wrapper %}
-{% endblock  %}
-
-{% include 'asidebarizq.html' %}
-
-{% include 'footer.html'%}
-</div>
-<!-- ./wrapper -->
-{% block scripts %}
-<!-- jQuery -->
-        <script type="application/javascript">
-            $(function () {
-                $('#data').DataTable({
-                    responsive: true,
-                    autoWidth: false,
-                    dom: 'lfrtBip',
-                    buttons: [
+        {% include 'navbar.html' %} {% include 'sidebar.html' %} {% block wrapper %} {% endblock %} {% include 'asidebarizq.html' %} {% include 'footer.html'%}
+    </div>
+    <!-- ./wrapper -->
+    {% block scripts %}
+    <!-- jQuery -->
+    <!-- Para Modificar los datatables con el id indicado -->
+    <script type="application/javascript">
+        $(function() {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: false,
+                dom: 'lfrtBip',
+                buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
-                    ]
-                });
+                ]
             });
-        </script>
+        });
+        $(function() {
+            $('#data_1').DataTable({
+                responsive: true,
+                autoWidth: false,
+                dom: 'lfrtBip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
 
-{% endblock %}
+    {% endblock %}
 </body>
 {% endblock %}

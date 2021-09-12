@@ -9,6 +9,7 @@ import bcrypt
 # Create your views here.
 def login(request):
     return render(request, 'login/login.html')
+    
 def registrar(request):
     return render(request, 'login/registro.html')
 

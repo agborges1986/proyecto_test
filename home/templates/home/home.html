@@ -1,0 +1,79 @@
+{% extends 'maincontent.html' %}
+
+{% block  content %}
+<div class="text-center">
+        <h1>DashBoard</h1>
+</div>
+<div class="container">
+        <h4>Trabajadores</h4>
+</div>
+<div class="container">
+    <table class="table table-striped " id="data">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Cargo</th>
+            <th scope="col">Area</th>
+            <th scope="col">Ingreso</th>
+            <th scope="col">Accion</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees%}
+                <tr>
+                    <td scope="row">{{ employee.id }}</td>      
+                    <td>{{employee.name}}</td>
+                    <td>{{employee.last_name}}</td>
+                    <td>{{employee.position}}</td>
+                    <td>{{employee.area}}</td>
+                    <td>{{employee.create_at}}</td>
+                    <td>
+                        <a href="{% url 'home:delete_employee' employee.id %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'home:edit_employee' employee.id %}" class="btn btn-warning">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+<div class="container">
+    <h4>Herramientas</h4>
+</div>
+<div class="container">
+    <table class="table table-striped " id="data_1">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">N°Serie</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Costo</th>
+                <th scope="col">Accion</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for tool in tools%}
+                    <tr>
+                        <td scope="row">{{ tool.id }}</td>      
+                        <td>{{tool.name}}</td>
+                        <td>{{tool.serie}}</td>
+                        <td>{{tool.model}}</td>
+                        <td>{{tool.provider}}</td>
+                        <td>{{tool.cost}}</td>
+                        <td>
+                            <a href="{% url 'home:delete_tools' tool.id %}" class="btn btn-danger">Delete</a>
+                            <a href="{% url 'home:edit_tools' tool.id %}" class="btn btn-warning">Edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+<div class="container">
+</div>
+{% endblock %}
