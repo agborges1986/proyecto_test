@@ -1,33 +1,43 @@
-{% extends 'maincontent.html' %}
-
-{% block  content %}
-<div class="row">
-    <div class="col-md-3">
-        <h1>Herramientas</h1>
+{% extends 'maincontent.html' %} {% block content %}
+<div>
+    <div class="col-md">
+        <h1>Listado de Herramientas</h1>
     </div>
+    <hr>
+    <div class="col-md-3">
+        <a href="{% url 'home:create_tools' %}" class="btn btn-primary">Nueva Herramienta</a>
+    </div>
+    <hr>
 </div>
+<br>
 <div>
     <table class="table table-striped " id="data">
         <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">N°Serie</th>
-            <th scope="col">Modelo</th>
-            <th scope="col">Proveedor</th>
-            <th scope="col">Costo</th>
-        </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">N°Serie</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Costo</th>
+                <th scope="col">Acciones</th>
+            </tr>
         </thead>
         <tbody>
             {% for tool in tools%}
-                <tr>
-                    <td scope="row">{{ tool.id }}</td>      
-                    <td>{{tool.name}}</td>
-                    <td>{{tool.serie}}</td>
-                    <td>{{tool.model}}</td>
-                    <td>{{tool.provider}}</td>
-                    <td>{{tool.cost}}</td>
-                </tr>
+            <tr>
+                <td scope="row">{{ tool.id }}</td>
+                <td>{{tool.name}}</td>
+                <td>{{tool.serie}}</td>
+                <td>{{tool.model}}</td>
+                <td>{{tool.provider}}</td>
+                <td>{{tool.cost}}</td>
+                <td>
+                    <a href="{% url 'home:delete_tools' tool.id %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'home:edit_tools' tool.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'home:view_tools' tool.id %}" class="btn btn-success">View</a>
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>

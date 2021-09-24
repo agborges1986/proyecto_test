@@ -48,7 +48,7 @@ class UserManager(models.Manager):
         return errores
 
 class User(models.Model):
-    id = models.AutoField(db_column='user_id',primary_key=True)
+    #id = models.AutoField(db_column='user_id',primary_key=True)
     name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
     email = models.CharField(max_length=40)
@@ -57,10 +57,6 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
-
-    class Meta:
-        managed = False
-        db_table = 'user'
 
 
 

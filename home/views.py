@@ -12,7 +12,7 @@ def validate_session(session):
     else:
         return False
 
-# Create your views here.
+# Página de home
 def home(request):
     if validate_session(request.session):
         reg_user = User.objects.get(id=request.session['id'])
@@ -29,13 +29,11 @@ def home(request):
 
 @login_required
 def create(request):
-    
     return redirect('/home/')
 
 @login_required
 def read(request):
     return HttpResponse("read")
-
 
 @login_required
 def update(request):
@@ -43,7 +41,6 @@ def update(request):
 
 @login_required
 def delete(request):
-    #
     return redirect('/home/')
 
 
@@ -68,9 +65,18 @@ def tools(request):
     else:
         return redirect('/')
 
-@login_required
+#@login_required
 def moves(request):
-    pass
+    if validate_session(request.session):
+        tools=Tool.objects.all()
+        moves=Move.objects.all().order_by('created_at')
+        context = {
+            'tools': tools,
+            'moves':moves,
+        }
+        return render(request, 'home/moves.html', context)
+    else:
+        return redirect('/')
 
 
 @login_required
@@ -85,7 +91,9 @@ def inform(request):
 #se debe cambiar en settings settings.LOGIN_URL='/' The URL or named URL pattern where requests are redirected 
 # for login when using the login_required() decorator
 
-@login_required
+#@login_required
+
+# Controladores para CRUD de Empleados
 def edit_employee(request,id):
     #Verifico que exista el id para no explotar la app con Employee.objects.get() con id que no exista
     if Employee.objects.filter(id=id).exists():
@@ -103,7 +111,18 @@ def delete_employee(request,id):
     else:
         return redirect('/home/employees')
 
+def view_employee(request,id):
+    return HttpResponse(f"Vista de Empleado Detalles {id}")
 
+def create_employee(request):
+    return render(request, 'home/create_emp.html')
+
+def employee_add(request):
+    #employee = Employee.objects.create(name=request.POST[''])
+    print(request.POST)
+    return HttpResponse(f"Creado")
+
+# Controladores para CRUD de Herramientas
 def edit_tools(request,id):
     #Verifico que exista el id para no explotar la app con Employee.objects.get() con id que no exista
     if Tool.objects.filter(id=id).exists():
@@ -112,8 +131,6 @@ def edit_tools(request,id):
     else:
         return redirect('/home/')
 
-
-
 def delete_tools(request,id):
     #Verifico que exista el id para no explotar la app con Employee.objects.get() con id que no exista
     if Tool.objects.filter(id=id).exists():
@@ -121,4 +138,35 @@ def delete_tools(request,id):
         tool.delete()
         return redirect('/home/') 
     else:
+        return redirect('/home/')
+
+def create_tools(request):
+    pass
+
+def view_tools(request,id):
+    return HttpResponse(f"Visualizar detalles de herramienta {id} ")
+
+# Controladores para CRUD de Movimientos
+def edit_moves(request,id):
+    #Verifico que exista el id para no explotar la app con Employee.objects.get() con id que no exista
+    if Move.objects.filter(id=id).exists():
+        move = Move.objects.get(id=id)
+        return HttpResponse(f'Editando a Moves: {move}')
+    else:
+        return redirect('/home/')
+
+def delete_moves(request,id):
+    #Verifico que exista el id para no explotar la app con Employee.objects.get() con id que no exista
+    if Move.objects.filter(id=id).exists():
+        move = Move.objects.get(id=id)
+        move.delete()
+        #Visualizar mensaje para indicar que fue efectiva la acción
         return redirect('/home/') 
+    else:
+        return redirect('/home/')
+
+def create_moves(request):
+    pass
+
+def view_moves(request,id):
+    return HttpResponse(f"Visualizar el movimiento {id} ")

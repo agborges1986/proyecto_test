@@ -7,7 +7,7 @@
 <div class="container">
         <h4>Trabajadores</h4>
 </div>
-<div class="container">
+<div>
     <table class="table table-striped " id="data">
         <thead>
         <tr>
@@ -28,10 +28,11 @@
                     <td>{{employee.last_name}}</td>
                     <td>{{employee.position}}</td>
                     <td>{{employee.area}}</td>
-                    <td>{{employee.create_at}}</td>
+                    <td>{{employee.created_at}}</td>
                     <td>
                         <a href="{% url 'home:delete_employee' employee.id %}" class="btn btn-danger">Delete</a>
                         <a href="{% url 'home:edit_employee' employee.id %}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'home:view_employee' employee.id %}" class="btn btn-success">View</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -40,10 +41,10 @@
 </div>
 <br>
 <br>
-<div class="container">
+<div>
     <h4>Herramientas</h4>
 </div>
-<div class="container">
+<div>
     <table class="table table-striped " id="data_1">
             <thead>
             <tr>
@@ -68,6 +69,7 @@
                         <td>
                             <a href="{% url 'home:delete_tools' tool.id %}" class="btn btn-danger">Delete</a>
                             <a href="{% url 'home:edit_tools' tool.id %}" class="btn btn-warning">Edit</a>
+                            <a href="{% url 'home:view_tools' tool.id %}" class="btn btn-success">View</a>
                         </td>
                     </tr>
                 {% endfor %}

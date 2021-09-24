@@ -1,29 +1,45 @@
-{% extends 'maincontent.html' %}
-
-{% block  content %}
-<h1>Trabajadores</h1>
-<table class="table table-striped " id="data">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Cargo</th>
-        <th scope="col">Area</th>
-        <th scope="col">Ingreso</th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for employee in employees%}
+{% extends 'maincontent.html' %} {% block content %}
+<div>
+    <div class="col-md">
+        <h1>Listado de Trabajadores</h1>
+    </div>
+    <hr>
+    <div class="col-md-3">
+        <a href="{% url 'home:create_employee' %}" class="btn btn-primary">Ingresar Nuevo Trabajador</a>
+    </div>
+    <hr>
+</div>
+<br>
+<div>
+    <table class="table table-striped " id="data">
+        <thead>
             <tr>
-                <td scope="row">{{ employee.id }}</td>      
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Area</th>
+                <th scope="col">Ingreso</th>
+                <th scope="col">Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees%}
+            <tr>
+                <td scope="row">{{ employee.id }}</td>
                 <td>{{employee.name}}</td>
                 <td>{{employee.last_name}}</td>
                 <td>{{employee.position}}</td>
                 <td>{{employee.area}}</td>
-                <td>{{employee.create_at}}</td>
+                <td>{{employee.created_at}}</td>
+                <td>
+                    <a href="{% url 'home:delete_employee' employee.id %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'home:edit_employee' employee.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'home:view_employee' employee.id %}" class="btn btn-success">View</a>
+                </td>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

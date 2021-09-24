@@ -1,0 +1,47 @@
+{% extends 'maincontent.html' %} {% block content %}
+<div>
+    <div class="col-md">
+        <h1>Listado de Movimientos</h1>
+    </div>
+    <hr>
+    <div class="col-md-3">
+        <a href="{% url 'home:create_move' %}" class="btn btn-primary">Generar Movimineto</a>
+    </div>
+    <hr>
+</div>
+<br>
+<div>
+    <table class="table table-striped " id="data">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Herramienta</th>
+                <th scope="col">Empleado</th>
+                <th scope="col">Area</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for move in moves%}
+            <tr>
+                <td scope="row">{{ move.id }}</td>
+                <td>{{move.updated_at}}</td>
+                <td>{{move.move_type.type}}</td>
+                <td>{{move.tool}}</td>
+                <td>{{move.employee.name}}</td>
+                <td>{{move.employee.area}}</td>
+                <td>{{move.description}}</td>
+                <td>
+                    <a href="{% url 'home:delete_move' move.id %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'home:edit_move' move.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'home:view_move' move.id %}" class="btn btn-success">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
