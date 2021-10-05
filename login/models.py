@@ -11,7 +11,9 @@ import bcrypt
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 
+
 class UserManager(models.Manager):
+
     def basic_validator(self, postData):
         errores = {}
         if len(User.objects.filter(email=postData['email'])) > 0:
@@ -31,21 +33,23 @@ class UserManager(models.Manager):
                 errores['password'] = "Password no son iguales"
         return errores
 
+
     def encriptar(self, password):
         password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         return password
 
-    def validar_login(self, postData, usuario ):
+
+    def validar_login(self, postData, usuario):
         errores = {}
         if len(usuario) > 0:
             pw_given = postData['password']
             pw_hash = usuario[0].password
-
             if bcrypt.checkpw(pw_given.encode(), pw_hash.encode()) is False:
                 errores['pass_incorrecto'] = "password es incorrecto"
         else:
             errores['usuario_invalido'] = "Usuario no existe"
         return errores
+
 
 class User(models.Model):
     #id = models.AutoField(db_column='user_id',primary_key=True)
@@ -57,13 +61,3 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
-
-
-
-
-
-
-
-
-
-
