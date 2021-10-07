@@ -1,7 +1,10 @@
 from django.db import models
-#from login.models import *
+from login.models import *
 
-# Create your models here.
+class EmployeeManager(models.Manager):
+
+    def basic_validator(self, postData):
+        pass
 
 
 class Employee(models.Model):
@@ -14,6 +17,8 @@ class Employee(models.Model):
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects=EmployeeManager()
+
 
     def __str__(self):
         return str(self.id) + '. - ' + self.name + ' ' + self.last_name
@@ -61,6 +66,11 @@ class Tool(models.Model):
     #    db_table = 'tools'
 
 
+class CertificationManager(models.Manager):
+
+    def basic_validator(self, postData):
+        pass
+
 class Certification(models.Model):
     tool = models.ForeignKey(Employee,
                             related_name='certification',
@@ -72,6 +82,7 @@ class Certification(models.Model):
         default=180)  #180 dìas (6 meses) de certificación por defecto
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects=CertificationManager()
 
 
 class MovesType(models.Model):
@@ -96,6 +107,12 @@ class Role(models.Model):
 
     #class Meta:
     #    db_table = 'roles'
+
+
+class MoveManager(models.Manager):
+
+    def basic_validator(self, postData):
+        pass
 
 
 class Move(models.Model):

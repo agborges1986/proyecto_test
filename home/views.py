@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
-from login.models import User, Warehouse
+from login.models import *
 from home.models import *
 from django.contrib.auth.decorators import login_required
 

@@ -11,7 +11,7 @@
                                 <div class="card card-primary card-outline">
                                     <div class="card-header">
                                         <div class="card-title">
-                                            Añadir tool
+                                            Añadir Herramienta
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -86,9 +86,11 @@
                                                             <option value="{{employee.id}}">{{ employee.name }}</option>
                                                         {% endfor %}
                                                         </select>
+                                                        {% comment %}                                           
                                                         <a class="related-widget-wrapper-link change-related" id="change_id_assigned_at" data-href-template="/admin/home/employee/__fk__/change/?_to_field=id&amp;_popup=1" title="Cambiar employee seleccionados"><img src="/static/admin/img/icon-changelink.svg" alt="Modificar"></a>
                                                         <a class="related-widget-wrapper-link add-related" id="add_id_assigned_at" href="/admin/home/employee/add/?_to_field=id&amp;_popup=1" title="Añadir otro employee"><img src="/static/admin/img/icon-addlink.svg" alt="Añadir"></a>
-                                                        <a class="related-widget-wrapper-link delete-related" id="delete_id_assigned_at" data-href-template="/admin/home/employee/__fk__/delete/?_to_field=id&amp;_popup=1" title="Eliminar employee seleccionada/o"><img src="/static/admin/img/icon-deletelink.svg" alt="Eliminar"></a>
+                                                        <a class="related-widget-wrapper-link delete-related" id="delete_id_assigned_at" data-href-template="/admin/home/employee/__fk__/delete/?_to_field=id&amp;_popup=1" title="Eliminar employee seleccionada/o"><img src="/static/admin/img/icon-deletelink.svg" alt="Eliminar"></a> 
+                                                        {% endcomment %}
                                                     </div>
                                                     <div class="help-block red">
                                                     </div>
@@ -99,7 +101,7 @@
                                         </div>
                                         <div class="form-group field-belong_to">
                                             <div class="row">
-                                                <label class="col-sm-2 text-left" for="id_belong_to">Belong tool<span class="text-red">* </span></label>
+                                                <label class="col-sm-2 text-left" for="id_belong_to">Bodega Asignada<span class="text-red">* </span></label>
                                                 <div class=" col-sm-10 field-belong_to">
                                                     <div class="related-widget-wrapper">
                                                         <select name="belong_to" required="" id="id_belong_to" data-select2-id="select2-data-id_belong_to" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
@@ -110,9 +112,11 @@
                                                         {% endfor %}
                                                         <!-- End Loops Bodegas -->
                                                         </select>
+                                                        {% comment %} 
                                                         <a class="related-widget-wrapper-link change-related" id="change_id_belong_to" data-href-template="/admin/home/warehouse/__fk__/change/?_to_field=id&amp;_popup=1" title="Cambiar warehouse seleccionados"><img src="/static/admin/img/icon-changelink.svg" alt="Modificar"></a>
                                                         <a class="related-widget-wrapper-link add-related" id="add_id_belong_to" href="/admin/home/warehouse/add/?_to_field=id&amp;_popup=1" title="Añadir otro warehouse"><img src="/static/admin/img/icon-addlink.svg" alt="Añadir"></a>
                                                         <a class="related-widget-wrapper-link delete-related" id="delete_id_belong_to" data-href-template="/admin/home/warehouse/__fk__/delete/?_to_field=id&amp;_popup=1" title="Eliminar warehouse seleccionada/o"><img src="/static/admin/img/icon-deletelink.svg" alt="Eliminar"></a>
+                                                        {% endcomment %}
                                                     </div>
                                                     <div class="help-block red">
                                                     </div>

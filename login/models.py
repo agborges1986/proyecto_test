@@ -3,15 +3,6 @@ from home.models import *
 import re
 import bcrypt
 
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
-
-
 class UserManager(models.Manager):
 
     def basic_validator(self, postData):
@@ -52,7 +43,7 @@ class UserManager(models.Manager):
 
 
 class User(models.Model):
-    #id = models.AutoField(db_column='user_id',primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
     email = models.CharField(max_length=40)

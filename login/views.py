@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from time import gmtime, strftime
 from login.models import *
+from home.models import *
 import bcrypt
 
 
@@ -16,7 +17,6 @@ def registrar(request):
 def inicio(request):
     usuario = User.objects.filter(email=request.POST['email'])
     errores = User.objects.validar_login(request.POST, usuario)
-    employee=Employee.objects.all()
 
 
     if len(errores) > 0:
