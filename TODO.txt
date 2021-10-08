@@ -1,0 +1,12 @@
+Hacer un Modal para informar el estado de las Acciones Realizadas
+
+Mejorar los Menú de Usuarios
+
+Diseñar Vista de Certificaciones
+
+Realizar Validaciones de clases y Sesion
+
+
+#Modificar los informes del datatables
+
+#Gestionar el borrado de elementos FOREIGN KEY constraints cuando elimino elementos

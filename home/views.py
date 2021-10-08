@@ -49,6 +49,7 @@ def employees(request):
     if validate_session(request.session):
         employees = Employee.objects.all()
         context = {
+            'active_user':User.objects.get(id=request.session['id']),
             'employees': employees,
         }
         return render(request, 'home/employees.html', context)
@@ -60,6 +61,7 @@ def tools(request):
     if validate_session(request.session):
         tools = Tool.objects.all()
         context = {
+            'active_user':User.objects.get(id=request.session['id']),
             'tools': tools,
         }
         return render(request, 'home/tools.html', context)
@@ -71,8 +73,9 @@ def tools(request):
 def moves(request):
     if validate_session(request.session):
         tools = Tool.objects.all()
-        moves = Move.objects.all().order_by('created_at')
+        moves = Move.objects.all().order_by('-created_at') #Ordenados de manera inversa
         context = {
+            'active_user':User.objects.get(id=request.session['id']),
             'tools': tools,
             'moves': moves,
         }
@@ -121,13 +124,30 @@ def view_employee(request, id):
 
 
 def create_employee(request):
+    
     return render(request, 'home/create_emp.html')
 
 
 def employee_add(request):
-    #employee = Employee.objects.create(name=request.POST[''])
-    print(request.POST)
-    return HttpResponse(f"Creado")
+    #Ejemplo de request.POST
+    #'name': ['Usuario Uno'], 'last_name': ['Gonzalez'], 'position': ['Albañil'], 'area': ['OOCC'], 
+    # 'active': ['on'], '_save': ['Guardar']
+
+    #TODO: Añadir validaciones antes de crear emplado
+    if request.POST:
+        new_employe=Employee.objects.create(
+            name=request.POST['name'],
+            last_name=request.POST['last_name'],
+            position=request.POST['position'],
+            area=request.POST['area'])
+        if request.POST['active'] == "off":
+            new_employe.active = False
+        if '_save' in request.POST:
+            return redirect('/home/employees')
+        elif '_addanother' in request.POST:
+            return redirect('/home/create/employe')
+    else:
+        return redirect('/home/')
 
 
 # Controladores para CRUD de Herramientas
@@ -135,7 +155,7 @@ def edit_tools(request, id):
     #Verifico que exista el id para no explotar la app con Employee.objects.get() con id que no exista
     if Tool.objects.filter(id=id).exists():
         tool = Tool.objects.get(id=id)
-        return HttpResponse(f'Editando a Tools: {tool}')
+        return HttpResponse(f'Editando a Tools: {tool} asignada a {tool.assigned_at}----{tool_not_assigned_at}')
     else:
         return redirect('/home/')
 
@@ -152,6 +172,7 @@ def delete_tools(request, id):
 
 def create_tools(request):
     context = {
+        'active_user':User.objects.get(id=request.session['id']),
         "employees": Employee.objects.all(),
         "warehouses": Warehouse.objects.all()
     }
@@ -170,7 +191,7 @@ def tool_add(request):
             model=request.POST['model'],
             provider=request.POST['provider'],
             cost=int(request.POST['cost']),
-            assigned_at=Employee.objects.get(id=request.POST['assigned_at']),
+            #assigned_at=Employee.objects.get(id=request.POST['assigned_at']),
             belong_to=Warehouse.objects.get(id=request.POST['belong_to']))
         if request.POST['active'] == "off":
             new_tool.active = False
@@ -207,14 +228,53 @@ def delete_moves(request, id):
         return redirect('/home/')
 
 
-def create_moves(request):
-    pass
+def create_moves(request, type):
+    #TODO Realizar la lógica para cuando existan entradas o salidas
+    if type == 'in':
+        context = {
+            'active_user':User.objects.get(id=request.session['id']),
+            "employees": Employee.objects.all(),
+            "tools": Tool.objects.filter(assigned_at__isnull=False),
+            "moves_type": MovesType.objects.filter(type='ENTRADA'),
+            "warehouses": Warehouse.objects.all(),
+        }
+        return render(request, 'home/create_move.html', context=context)
+    elif type=='out':
+        context = {
+            'active_user':User.objects.get(id=request.session['id']),
+            "employees": Employee.objects.all(),
+            "tools": Tool.objects.filter(assigned_at__isnull=True),
+            "moves_type": MovesType.objects.filter(type='SALIDA'),
+            "warehouses": Warehouse.objects.all(),
+        }
+        return render(request, 'home/create_move.html', context=context)
 
 
 def move_add(request):
-    #employee = Employee.objects.create(name=request.POST[''])
-    print(request.POST)
-    return HttpResponse(f"Creado")
+    # Ejemplo de request.POST
+    # POST DATA 'move_type': ['1'], 'tool': ['2'], 'employee': ['2'], 'description': ['Vino'], '_save': ['Guardar']
+    
+
+    if request.POST:
+        #TODO add validation with MoveManager
+        tool=Tool.objects.get(id=request.POST['tool'])
+        employee=Employee.objects.get(id=request.POST['employee'])
+        new_move = Move.objects.create(
+            move_type=MovesType.objects.get(id=request.POST['move_type']),
+            tool=tool,
+            description=request.POST['description'],
+            employee=employee)
+        #Asigno la herramienta al Employee indicado
+        tool.assigned_at=employee
+        tool.save()
+        if '_save' in request.POST:
+            return redirect('/home/moves')
+        elif '_addanother' in request.POST:
+            return redirect('/home/create/moves')
+    else:
+        return redirect('/home/moves')
+    #print(request.POST)
+    #return HttpResponse(f"Creado")
 
 
 def view_moves(request, id):

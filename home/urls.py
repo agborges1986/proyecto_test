@@ -28,7 +28,7 @@ urlpatterns = [
     path('edit/<int:id>/move', views.edit_moves, name='edit_move'),
     path('delete/<int:id>/move', views.delete_moves, name='delete_move'),
     path('view/<int:id>/move', views.view_moves, name='view_move'),
-    path('create/move', views.create_moves,name='create_move'),
+    path('create/<str:type>/move', views.create_moves,name='create_move'),
     path('create/move_add', views.move_add,name='move_add'),
     
     #path('getServicio', views.getMove, name='getmove'),

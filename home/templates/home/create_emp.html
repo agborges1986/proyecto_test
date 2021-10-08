@@ -5,7 +5,7 @@
         <section id="content" class="content">
             <div class="row">
                 <div id="content-main" class="col-12">
-                    <form action="employee_add" method="post" id="employee_form" novalidate>
+                    <form action="{% url 'home:employee_add' %}" method="post" id="employee_form" novalidate>
                         {% csrf_token %}
                         <div class="row">
                             <!-- Para Ingresar los datos -->

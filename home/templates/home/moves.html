@@ -4,9 +4,12 @@
         <h1>Listado de Movimientos</h1>
     </div>
     <hr>
-    <div class="col-md-3">
-        <a href="{% url 'home:create_move' %}" class="btn btn-primary">Generar Movimineto</a>
-    </div>
+    <div class="row">
+        <div class="col-md-4 lg-6 sm-1">
+            <a href="{% url 'home:create_move' 'in' %}" class="btn btn-primary">Generar Entrada</a>
+            <a href="{% url 'home:create_move' 'out' %}" class="btn btn-danger">Generar Salida</a>
+        </div>
+        </div>
     <hr>
 </div>
 <br>

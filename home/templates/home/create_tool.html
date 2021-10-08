@@ -4,7 +4,7 @@
         <section id="content" class="content">
             <div class="row">
                 <div id="content-main" class="col-12">
-                    <form action="tool_add" method="post" id="tool_form" novalidate="">
+                    <form action="{% url 'home:tool_add' %}" method="post" id="tool_form" novalidate="">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-12 col-lg-9">
