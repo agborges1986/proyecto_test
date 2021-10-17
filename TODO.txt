@@ -6,6 +6,8 @@ Diseñar Vista de Certificaciones
 
 Realizar Validaciones de clases y Sesion
 
+Realizar validaciones por tipo de Usuario
+
 
 #Modificar los informes del datatables
 

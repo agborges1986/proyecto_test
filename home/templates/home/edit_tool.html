@@ -1,0 +1,166 @@
+{% extends 'maincontent.html' %} 
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <section id="content" class="content">
+            <div class="row">
+                <div id="content-main" class="col-12">
+                    <form action="{% url 'home:tool_add' %}" method="post" id="tool_form" novalidate="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 col-lg-9">
+                                <div class="card card-primary card-outline">
+                                    <div class="card-header">
+                                        <div class="card-title">
+                                            Editar Herramienta
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <input type="hidden" name="id" value={{tool.id}}>
+                                        <div class="form-group field-name">
+                                            <div class="row">
+                                                <label class="col-sm-2 text-left" for="id_name">Nombre</label>
+                                                <div class=" col-sm-10 field-name">
+                                                    <input type="text" name="name" class="vTextField" maxlength="45" id="id_name" value={{tool.name}}>
+                                                    <div class="help-block red">
+                                                    </div>
+                                                    <div class="help-block text-red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field-serie">
+                                            <div class="row">
+                                                <label class="col-sm-2 text-left" for="id_serie">Serie</label>
+                                                <div class=" col-sm-10 field-serie">
+                                                    <input type="text" name="serie" class="vTextField" maxlength="30" id="id_serie" value={{tool.serie}}>
+                                                    <div class="help-block red">
+                                                    </div>
+                                                    <div class="help-block text-red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field-model">
+                                            <div class="row">
+                                                <label class="col-sm-2 text-left" for="id_model">Model</label>
+                                                <div class=" col-sm-10 field-model">
+                                                    <input type="text" name="model" class="vTextField" maxlength="45" id="id_model" value={{tool.model}}>
+                                                    <div class="help-block red">
+                                                    </div>
+                                                    <div class="help-block text-red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field-provider">
+                                            <div class="row">
+                                                <label class="col-sm-2 text-left" for="id_provider">Proveedor</label>
+                                                <div class=" col-sm-10 field-provider">
+                                                    <input type="text" name="provider" class="vTextField" maxlength="45" id="id_provider" value={{tool.provider}}>
+                                                    <div class="help-block red">
+                                                    </div>
+                                                    <div class="help-block text-red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field-cost">
+                                            <div class="row">
+                                                <label class="col-sm-2 text-left" for="id_cost">Costo</label>
+                                                <div class=" col-sm-10 field-cost">
+                                                    <input type="number" name="cost" class="vIntegerField" id="id_cost" value={{tool.cost}}>
+                                                    <div class="help-block red">
+                                                    </div>
+                                                    <div class="help-block text-red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field-assigned_at">
+                                            <div class="row">
+                                                <label class="col-sm-2 text-left" for="id_assigned_at">Asignada a:<span class="text-red">* </span></label>
+                                                <div class=" col-sm-10 field-assigned_at">
+                                                    <div class="related-widget-wrapper">
+                                                        <select name="assigned_at" required="" id="id_assigned_at" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+                                                        {% for employee in employees%}
+                                                            <option value="{{employee.id}}" 
+                                                            {% if employee.id == tool.assigned_at.id%} selected="selected" {%else%} disabled="disabled" {% endif%}>{{employee.name }}</option>
+                                                        {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="help-block red">
+                                                    </div>
+                                                    <div class="help-block text-red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field-belong_to">
+                                            <div class="row">
+                                                <label class="col-sm-2 text-left" for="id_belong_to">Bodega Asignada<span class="text-red">* </span></label>
+                                                <div class=" col-sm-10 field-belong_to">
+                                                    <div class="related-widget-wrapper">
+                                                        <select name="belong_to" required="" id="id_belong_to" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+                                                        <!-- Hacer loops con Bodegas -->
+                                                        {% for warehouse in warehouses %}
+                                                            <option value="{{warehouse.id}}" {% if warehouse.id == tool.belong_to.id%} selected="selected" {%else%} disabled="disabled" {% endif%}>{{ warehouse.name }}</option>
+                                                        {% endfor %}
+                                                        <!-- End Loops Bodegas -->
+                                                        </select>
+                                                        {% comment %} 
+                                                        <a class="related-widget-wrapper-link change-related" id="change_id_belong_to" data-href-template="/admin/home/warehouse/__fk__/change/?_to_field=id&amp;_popup=1" title="Cambiar warehouse seleccionados"><img src="/static/admin/img/icon-changelink.svg" alt="Modificar"></a>
+                                                        <a class="related-widget-wrapper-link add-related" id="add_id_belong_to" href="/admin/home/warehouse/add/?_to_field=id&amp;_popup=1" title="Añadir otro warehouse"><img src="/static/admin/img/icon-addlink.svg" alt="Añadir"></a>
+                                                        <a class="related-widget-wrapper-link delete-related" id="delete_id_belong_to" data-href-template="/admin/home/warehouse/__fk__/delete/?_to_field=id&amp;_popup=1" title="Eliminar warehouse seleccionada/o"><img src="/static/admin/img/icon-deletelink.svg" alt="Eliminar"></a>
+                                                        {% endcomment %}
+                                                    </div>
+                                                    <div class="help-block red">
+                                                    </div>
+                                                    <div class="help-block text-red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group field-active">
+                                            <div class="row">
+                                                <label class="col-sm-2 text-left" for="id_active">Active</label>
+                                                <div class=" col-sm-10 field-active">
+                                                    <input type="checkbox" name="active" id="id_active" checked="">
+                                                    <div class="help-block red">
+                                                    </div>
+                                                    <div class="help-block text-red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Form Tool -->
+                            <div class="col-12 col-lg-3">
+                                <div id="jazzy-actions" class="">
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                <i class="fas fa-edit"></i> Acciones
+                                            </h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <input type="submit" value="Guardar" class="btn btn-outline-success form-control" name="_save">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-outline-info form-control" value="Guardar y añadir otro" name="_addanother">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

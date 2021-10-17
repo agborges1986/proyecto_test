@@ -10,9 +10,11 @@ import bcrypt
 # Create your views here.
 def login(request):
     return render(request, 'login/login.html')
-    
+
+
 def registrar(request):
     return render(request, 'login/registro.html')
+
 
 def inicio(request):
     usuario = User.objects.filter(email=request.POST['email'])
@@ -26,6 +28,7 @@ def inicio(request):
     else:
         request.session['id'] = usuario[0].id
         return redirect('home/')
+
 
 def registro(request):
     #validacion de parametros
@@ -59,6 +62,7 @@ def registro(request):
             )
         request.session['id'] = user.id
     return redirect('home/')
+
 
 def logout(request):
     request.session.flush()

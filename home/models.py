@@ -14,7 +14,7 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=45, blank=True, null=True)
     position = models.CharField(max_length=45, blank=True, null=True)
     area = models.CharField(max_length=45, blank=True, null=True)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=EmployeeManager()
@@ -55,7 +55,7 @@ class Tool(models.Model):
                                 null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     objects = ToolManager()
 
 

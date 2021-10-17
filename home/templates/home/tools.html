@@ -20,6 +20,7 @@
                 <th scope="col">Modelo</th>
                 <th scope="col">Proveedor</th>
                 <th scope="col">Costo</th>
+                <th scope="col">Asignada a:</th>
                 <th scope="col">Acciones</th>
             </tr>
         </thead>
@@ -31,7 +32,8 @@
                 <td>{{tool.serie}}</td>
                 <td>{{tool.model}}</td>
                 <td>{{tool.provider}}</td>
-                <td>{{tool.cost}}</td>
+                <td>${{tool.cost|stringformat:"1.2f"}}</td>
+                <td>{{tool.assigned_at}}</td>
                 <td>
                     <a href="{% url 'home:delete_tools' tool.id %}" class="btn btn-danger">Delete</a>
                     <a href="{% url 'home:edit_tools' tool.id %}" class="btn btn-warning">Edit</a>

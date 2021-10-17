@@ -1,5 +1,5 @@
-{% extends 'maincontent.html' %} {% block content %}
-
+{% extends 'maincontent.html' %} 
+{% block content %}
 <div class="content">
     <div class="container-fluid">
         <section id="content" class="content">
@@ -12,14 +12,15 @@
                             <div class="col-lg-8">
                                 <div class="card card-primary card-outline">
                                     <div class="card-header">
-                                        <h3 class="card-title">Complete la Información del Trabajador</h3>
+                                        <h3 class="card-title">Edite la Información del Trabajador</h3>
                                     </div>
                                     <div class="card-body">
+                                        <input type="hidden" name="id" value="{{ employee.id }}">
                                         <div class="form-group field-name">
                                             <div class="row">
                                                 <label class="col-sm-2 text-left" for="id_name">Nombre</label>
                                                 <div class=" col-sm-10 field-name">
-                                                    <input type="text" name="name" class="vTextField" maxlength="45" id="id_name">
+                                                    <input type="text" name="name" class="vTextField" maxlength="45" id="id_name" value={{employee.name}}>
                                                     <div class="help-block red">
                                                     </div>
                                                     <div class="help-block text-red">
@@ -31,7 +32,7 @@
                                             <div class="row">
                                                 <label class="col-sm-2 text-left" for="id_last_name">Apellido</label>
                                                 <div class=" col-sm-10 field-last_name">
-                                                    <input type="text" name="last_name" class="vTextField" maxlength="45" id="id_last_name">
+                                                    <input type="text" name="last_name" class="vTextField" maxlength="45" id="id_last_name" value={{employee.last_name}}>
                                                     <div class="help-block red">
                                                     </div>
                                                     <div class="help-block text-red">
@@ -43,7 +44,7 @@
                                             <div class="row">
                                                 <label class="col-sm-2 text-left" for="id_position">Cargo</label>
                                                 <div class=" col-sm-10 field-position">
-                                                    <input type="text" name="position" class="vTextField" maxlength="45" id="id_position">
+                                                    <input type="text" name="position" class="vTextField" maxlength="45" id="id_position" value={{employee.position}}>
                                                     <div class="help-block red">
                                                     </div>
                                                     <div class="help-block text-red">
@@ -55,7 +56,7 @@
                                             <div class="row">
                                                 <label class="col-sm-2 text-left" for="id_area">Area Laboral</label>
                                                 <div class=" col-sm-10 field-area">
-                                                    <input type="text" name="area" class="vTextField" maxlength="45" id="id_area">
+                                                    <input type="text" name="area" class="vTextField" maxlength="45" id="id_area" value={{employee.area}}>
                                                     <div class="help-block red">
                                                     </div>
                                                     <div class="help-block text-red">
@@ -67,7 +68,7 @@
                                             <div class="row">
                                                 <label class="col-sm-2 text-left" for="id_active">Activo</label>
                                                 <div class=" col-sm-10 field-active">
-                                                    <input type="checkbox" name="active" id="id_active" checked>
+                                                    <input type="checkbox" name="active" id="id_active" {% if employee.active %}checked {% endif %}>
                                                     <div class="help-block red">
                                                     </div>
                                                     <div class="help-block text-red">
@@ -91,9 +92,6 @@
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-outline-info form-control" value="Guardar y añadir otro" name="_addanother">
                                     </div>
-                                    {% comment %} <div class="form-group">
-                                        <input type="submit" class="btn btn-outline-info form-control" value="Guardar y continuar editando" name="_continue">
-                                    </div> {% endcomment %}
                                 </div>
                                 <!-- Fin de Acciones -->
                             </div>

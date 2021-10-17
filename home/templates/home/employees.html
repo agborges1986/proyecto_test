@@ -31,7 +31,7 @@
                 <td>{{employee.last_name}}</td>
                 <td>{{employee.position}}</td>
                 <td>{{employee.area}}</td>
-                <td>{{employee.created_at}}</td>
+                <td>{{employee.created_at|date:"Y-m-d"}}</td>
                 <td>
                     <a href="{% url 'home:delete_employee' employee.id %}" class="btn btn-danger">Delete</a>
                     <a href="{% url 'home:edit_employee' employee.id %}" class="btn btn-warning">Edit</a>

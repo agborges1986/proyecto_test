@@ -103,8 +103,12 @@ def inform(request):
 def edit_employee(request, id):
     #Verifico que exista el id para no explotar la app con Employee.objects.get() con id que no exista
     if Employee.objects.filter(id=id).exists():
-        employee = Employee.objects.get(id=id)
-        return HttpResponse(f'Editando a Employee: {employee}')
+        context={
+            'employee': Employee.objects.get(id=id),
+            'active_user':User.objects.get(id=request.session['id']),
+        }
+        
+        return render(request, 'home/edit_emp.html',context)
     else:
         return redirect('/home/')
 
@@ -127,25 +131,45 @@ def create_employee(request):
     
     return render(request, 'home/create_emp.html')
 
-
+#Para Añadir o Editar
 def employee_add(request):
     #Ejemplo de request.POST
     #'name': ['Usuario Uno'], 'last_name': ['Gonzalez'], 'position': ['Albañil'], 'area': ['OOCC'], 
     # 'active': ['on'], '_save': ['Guardar']
+    #print(request.POST)
 
     #TODO: Añadir validaciones antes de crear emplado
+
+    #Valido que es una petición POST
     if request.POST:
-        new_employe=Employee.objects.create(
-            name=request.POST['name'],
-            last_name=request.POST['last_name'],
-            position=request.POST['position'],
-            area=request.POST['area'])
-        if request.POST['active'] == "off":
-            new_employe.active = False
-        if '_save' in request.POST:
-            return redirect('/home/employees')
-        elif '_addanother' in request.POST:
-            return redirect('/home/create/employe')
+        if 'id' in request.POST:
+        #Estoy editando
+            employee_edit=Employee.objects.get(id=request.POST['id'])
+            employee_edit.name=request.POST['name']
+            employee_edit.last_name=request.POST['last_name']
+            employee_edit.position=request.POST['position']
+            employee_edit.area=request.POST['area']
+            if 'active' in request.POST:
+                employee_edit.active = True
+            if '_save' in request.POST:
+                employee_edit.save()
+                return redirect('/home/employees')
+            elif '_addanother' in request.POST:
+                employee_edit.save()
+                return redirect('/home/create/employe')
+        else:
+        #Estoy creando uno nuevo
+            new_employe=Employee.objects.create(
+                name=request.POST['name'],
+                last_name=request.POST['last_name'],
+                position=request.POST['position'],
+                area=request.POST['area'])
+            if 'active' in request.POST:
+                new_employe.active = True
+            if '_save' in request.POST:
+                return redirect('/home/employees')
+            elif '_addanother' in request.POST:
+                return redirect('/home/create/employe')
     else:
         return redirect('/home/')
 
@@ -154,8 +178,13 @@ def employee_add(request):
 def edit_tools(request, id):
     #Verifico que exista el id para no explotar la app con Employee.objects.get() con id que no exista
     if Tool.objects.filter(id=id).exists():
-        tool = Tool.objects.get(id=id)
-        return HttpResponse(f'Editando a Tools: {tool} asignada a {tool.assigned_at}----{tool_not_assigned_at}')
+        context = {
+        'active_user':User.objects.get(id=request.session['id']),
+        "employees": Employee.objects.all(),
+        "warehouses": Warehouse.objects.all(),
+        'tool': Tool.objects.get(id=id),
+        }
+        return render(request, 'home/edit_tool.html', context=context)
     else:
         return redirect('/home/')
 
@@ -185,20 +214,41 @@ def tool_add(request):
     
     if request.POST:
         #TODO add validation with ToolManager
-        new_tool = Tool.objects.create(
-            name=request.POST['name'],
-            serie=request.POST['serie'],
-            model=request.POST['model'],
-            provider=request.POST['provider'],
-            cost=int(request.POST['cost']),
+
+        if 'id' in request.POST:
+            #Editando Tool
+            edit_tool = Tool.objects.get(id =request.POST['id'])
+            edit_tool.name=request.POST['name']
+            edit_tool.serie=request.POST['serie']
+            edit_tool.model=request.POST['model']
+            edit_tool.provider=request.POST['provider']
+            edit_tool.cost=int(request.POST['cost'])
             #assigned_at=Employee.objects.get(id=request.POST['assigned_at']),
-            belong_to=Warehouse.objects.get(id=request.POST['belong_to']))
-        if request.POST['active'] == "off":
-            new_tool.active = False
-        if '_save' in request.POST:
-            return redirect('/home/tools')
-        elif '_addanother' in request.POST:
-            return redirect('/home/create/tool')
+            edit_tool.belong_to=Warehouse.objects.get(id=request.POST['belong_to'])
+            if 'active' in request.POST['active']:
+                edit_tool.active = True
+            if '_save' in request.POST:
+                edit_tool.save()
+                return redirect('/home/tools')
+            elif '_addanother' in request.POST:
+                edit_tool.save()
+                return redirect('/home/create/tool')
+        else:
+            #Adicionando Tool
+            new_tool = Tool.objects.create(
+                name=request.POST['name'],
+                serie=request.POST['serie'],
+                model=request.POST['model'],
+                provider=request.POST['provider'],
+                cost=int(request.POST['cost']),
+                #assigned_at=Employee.objects.get(id=request.POST['assigned_at']),
+                belong_to=Warehouse.objects.get(id=request.POST['belong_to']))
+            if 'active' in request.POST['active']:
+                new_tool.active = True
+            if '_save' in request.POST:
+                return redirect('/home/tools')
+            elif '_addanother' in request.POST:
+                return redirect('/home/create/tool')
     else:
         return redirect('/home/')
 
