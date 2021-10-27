@@ -1,0 +1,39 @@
+{% extends 'maincontent.html' %} 
+{% block content %}
+<div>
+    <div class="col-md">
+        <h1>{{employee}}</h1>
+    </div>
+    <hr>
+    <div class="col-md-3">
+        <a href="{% url 'home:employees' %}" class="btn btn-primary">Regresar Trabajadores</a>
+    </div>
+    <hr>
+</div>
+<div>
+    <table class="table table-striped " id="data">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">N°Serie</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Costo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tool in tools%}
+            <tr>
+                <td scope="row">{{ tool.id }}</td>
+                <td>{{tool.name}}</td>
+                <td>{{tool.serie}}</td>
+                <td>{{tool.model}}</td>
+                <td>{{tool.provider}}</td>
+                <td>${{tool.cost|stringformat:"1.2f"}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

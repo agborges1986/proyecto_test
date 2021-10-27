@@ -72,7 +72,7 @@ class CertificationManager(models.Manager):
         pass
 
 class Certification(models.Model):
-    tool = models.ForeignKey(Employee,
+    tool = models.OneToOneField(Tool,
                             related_name='certification',
                             on_delete=models.DO_NOTHING,
                             null=True)

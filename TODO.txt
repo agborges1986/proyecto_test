@@ -1,14 +1,15 @@
-Hacer un Modal para informar el estado de las Acciones Realizadas
+1.Hacer un Modal para informar el estado de las Acciones Realizadas
 
-Mejorar los Menú de Usuarios
+2.Mejorar los Menú de Usuarios
 
-Diseñar Vista de Certificaciones
+3.Diseñar Vista de Certificaciones
 
-Realizar Validaciones de clases y Sesion
+4.Realizar Validaciones de clases y Sesion
 
-Realizar validaciones por tipo de Usuario
+5.Realizar validaciones por tipo de Usuario
 
+6. Modificar los informes del datatables para que sean más legibles
 
-#Modificar los informes del datatables
+7.Gestionar el borrado de elementos FOREIGN KEY constraints cuando elimino elementos de la base de datos
 
-#Gestionar el borrado de elementos FOREIGN KEY constraints cuando elimino elementos
+8. Cambiar botones de Editar,Ver o Eliminar por un botón de acción con imagen

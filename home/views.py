@@ -124,7 +124,21 @@ def delete_employee(request, id):
 
 
 def view_employee(request, id):
-    return HttpResponse(f"Vista de Empleado Detalles {id}")
+    #TODO : Verificar de mejor manera la respuesta cuando se solicita un id que no existe
+    if validate_session(request.session) & Employee.objects.filter(id=id).exists():
+        reg_user = User.objects.get(id=request.session['id'])
+        employee = Employee.objects.get(id=id)
+        tools = Tool.objects.filter(assigned_at=employee).order_by('-created_at')
+        context = {
+            'active_user': reg_user,
+            'employee': employee,
+            'tools': tools,
+        }
+        return render(request, 'home/view_emp.html', context)
+    else:
+        return redirect('/')
+    #return render(request, 'home/view_emp.html')
+    #return HttpResponse(f"Vista de Empleado Detalles {id}")
 
 
 def create_employee(request):
@@ -254,6 +268,19 @@ def tool_add(request):
 
 
 def view_tools(request, id):
+    #TODO : Verificar de mejor manera la respuesta cuando se solicita un id que no existe
+    if validate_session(request.session) & Tool.objects.filter(id=id).exists():
+        reg_user = User.objects.get(id=request.session['id'])
+        tool = Tool.objects.get(id=id)
+        moves = Move.objects.filter(tool=tool).order_by('-created_at')
+        context = {
+            'active_user': reg_user,
+            'moves': moves,
+            'tool': tool,
+        }
+        return render(request, 'home/view_tool.html', context)
+    else:
+        return redirect('/')
     return HttpResponse(f"Visualizar detalles de herramienta {id} ")
 
 
