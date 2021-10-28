@@ -117,6 +117,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Custom user model
+#AUTH_USER_MODEL = "login.User"
+
 LOGIN_URL='/'
 
 # Internationalization

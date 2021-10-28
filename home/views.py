@@ -356,3 +356,7 @@ def move_add(request):
 
 def view_moves(request, id):
     return HttpResponse(f"Visualizar el movimiento {id} ")
+
+
+def certification(request):
+    return render(request, 'home/certification.html')

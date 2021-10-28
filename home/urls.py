@@ -39,5 +39,6 @@ urlpatterns = [
     path('moves',views.moves,name='moves'),
     path('movetype',views.movetype,name='movetype'),
     path('inform',views.inform,name='inform'),
+    path('certification',views.certification,name='certification'),
     
 ]
