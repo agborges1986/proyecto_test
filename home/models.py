@@ -1,6 +1,7 @@
 from django.db import models
 from login.models import *
 
+
 class EmployeeManager(models.Manager):
 
     def basic_validator(self, postData):
@@ -17,13 +18,12 @@ class Employee(models.Model):
     active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    objects=EmployeeManager()
-
+    objects = EmployeeManager()
 
     def __str__(self):
         return str(self.id) + '. - ' + self.name + ' ' + self.last_name
 
-    #class Meta:
+    # class Meta:
     #    db_table = 'employees'
 
 
@@ -32,13 +32,13 @@ class Warehouse(models.Model):
 
 
 class ToolManager(models.Manager):
-    #TODO do validation basic_validator
+    # TODO do validation basic_validator
     def basic_validator(self, postData):
         pass
 
 
 class Tool(models.Model):
-    #Incluir las fechas de certificación, vencimiento y períodos y accesos a documentos
+    # Incluir las fechas de certificación, vencimiento y períodos y accesos a documentos
     #id = models.AutoField(db_column='id',primary_key=True)
     name = models.CharField(max_length=45, blank=True, null=True)
     serie = models.CharField(max_length=30, blank=True, null=True)
@@ -53,16 +53,17 @@ class Tool(models.Model):
                                 related_name='belong_to',
                                 on_delete=models.DO_NOTHING,
                                 null=True)
+    created_for = models.ForeignKey(
+        User, related_name='tool_created_for', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=False)
     objects = ToolManager()
 
-
     def __str__(self):
         return 'N°: ' + self.serie + '-' + self.name
 
-    #class Meta:
+    # class Meta:
     #    db_table = 'tools'
 
 
@@ -71,18 +72,21 @@ class CertificationManager(models.Manager):
     def basic_validator(self, postData):
         pass
 
+
 class Certification(models.Model):
     tool = models.OneToOneField(Tool,
-                            related_name='certification',
-                            on_delete=models.DO_NOTHING,
-                            null=True)
+                                related_name='certification',
+                                on_delete=models.DO_NOTHING,
+                                null=True)
     is_necessary = models.BooleanField(default=False)
     last_certification = models.DateTimeField()
     certification_period = models.IntegerField(
-        default=180)  #180 dìas (6 meses) de certificación por defecto
+        default=180)  # 180 dìas (6 meses) de certificación por defecto
+    created_for = models.ForeignKey(
+        User, related_name='certification_created_for', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    objects=CertificationManager()
+    objects = CertificationManager()
 
 
 class MovesType(models.Model):
@@ -94,7 +98,7 @@ class MovesType(models.Model):
     def __str__(self):
         return self.type
 
-    #class Meta:
+    # class Meta:
     #    db_table = 'moves_type'
 
 
@@ -105,7 +109,7 @@ class Role(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user_email = models.CharField(max_length=255)
 
-    #class Meta:
+    # class Meta:
     #    db_table = 'roles'
 
 
@@ -127,11 +131,13 @@ class Move(models.Model):
                                 related_name='moves_type_has_tools',
                                 on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
+    approved_for = models.ForeignKey(
+        User, related_name='user_approved', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.move_type.type + ' - ' + self.tool.name + ' - ' + self.employee.name
 
-    #class Meta:
+    # class Meta:
     #    db_table = 'moves_type_has_tools'

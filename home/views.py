@@ -225,46 +225,47 @@ def create_tools(request):
 def tool_add(request):
     # request.POST='name': [''], 'serie': [''], 'model': [''], 'provider': [''], 'cost': [''], 'assigned_at': [''], 'belong_to': [''],
     # 'active': ['on'], '_save': ['Guardar']
-    
-    if request.POST:
-        #TODO add validation with ToolManager
-
-        if 'id' in request.POST:
-            #Editando Tool
-            edit_tool = Tool.objects.get(id =request.POST['id'])
-            edit_tool.name=request.POST['name']
-            edit_tool.serie=request.POST['serie']
-            edit_tool.model=request.POST['model']
-            edit_tool.provider=request.POST['provider']
-            edit_tool.cost=int(request.POST['cost'])
-            #assigned_at=Employee.objects.get(id=request.POST['assigned_at']),
-            edit_tool.belong_to=Warehouse.objects.get(id=request.POST['belong_to'])
-            if 'active' in request.POST['active']:
-                edit_tool.active = True
-            if '_save' in request.POST:
-                edit_tool.save()
-                return redirect('/home/tools')
-            elif '_addanother' in request.POST:
-                edit_tool.save()
-                return redirect('/home/create/tool')
-        else:
-            #Adicionando Tool
-            new_tool = Tool.objects.create(
-                name=request.POST['name'],
-                serie=request.POST['serie'],
-                model=request.POST['model'],
-                provider=request.POST['provider'],
-                cost=int(request.POST['cost']),
+    if validate_session(request.session): #Validando session
+        if request.POST:
+            #TODO add validation with ToolManager
+            if 'id' in request.POST: #Editando Tools
+                edit_tool = Tool.objects.get(id =request.POST['id'])
+                edit_tool.name=request.POST['name']
+                edit_tool.serie=request.POST['serie']
+                edit_tool.model=request.POST['model']
+                edit_tool.provider=request.POST['provider']
+                edit_tool.cost=int(request.POST['cost'])
                 #assigned_at=Employee.objects.get(id=request.POST['assigned_at']),
-                belong_to=Warehouse.objects.get(id=request.POST['belong_to']))
-            if 'active' in request.POST['active']:
-                new_tool.active = True
-            if '_save' in request.POST:
-                return redirect('/home/tools')
-            elif '_addanother' in request.POST:
-                return redirect('/home/create/tool')
+                edit_tool.belong_to=Warehouse.objects.get(id=request.POST['belong_to'])
+                edit_tool.created_for=User.objects.get(id=request.session['id'])
+                if 'active' in request.POST['active']:
+                    edit_tool.active = True
+                if '_save' in request.POST:
+                    edit_tool.save()
+                    return redirect('/home/tools')
+                elif '_addanother' in request.POST:
+                    edit_tool.save()
+                    return redirect('/home/create/tool')
+            else: #Creando Tools
+                new_tool = Tool.objects.create(
+                    name=request.POST['name'],
+                    serie=request.POST['serie'],
+                    model=request.POST['model'],
+                    provider=request.POST['provider'],
+                    cost=int(request.POST['cost']),
+                    #assigned_at=Employee.objects.get(id=request.POST['assigned_at']),
+                    belong_to=Warehouse.objects.get(id=request.POST['belong_to']),
+                    created_for=User.objects.get(id=request.session['id']))
+                if 'active' in request.POST['active']:
+                    new_tool.active = True
+                if '_save' in request.POST:
+                    return redirect('/home/tools')
+                elif '_addanother' in request.POST:
+                    return redirect('/home/create/tool')
+        else:
+            return redirect('/home/')
     else:
-        return redirect('/home/')
+        return redirect('/')
 
 
 def view_tools(request, id):
@@ -330,26 +331,28 @@ def create_moves(request, type):
 def move_add(request):
     # Ejemplo de request.POST
     # POST DATA 'move_type': ['1'], 'tool': ['2'], 'employee': ['2'], 'description': ['Vino'], '_save': ['Guardar']
-    
-
-    if request.POST:
-        #TODO add validation with MoveManager
-        tool=Tool.objects.get(id=request.POST['tool'])
-        employee=Employee.objects.get(id=request.POST['employee'])
-        new_move = Move.objects.create(
-            move_type=MovesType.objects.get(id=request.POST['move_type']),
-            tool=tool,
-            description=request.POST['description'],
-            employee=employee)
-        #Asigno la herramienta al Employee indicado
-        tool.assigned_at=employee
-        tool.save()
-        if '_save' in request.POST:
+    if validate_session(request.session):
+        if request.POST:
+            #TODO add validation with MoveManager
+            tool=Tool.objects.get(id=request.POST['tool'])
+            employee=Employee.objects.get(id=request.POST['employee'])
+            new_move = Move.objects.create(
+                move_type=MovesType.objects.get(id=request.POST['move_type']),
+                tool=tool,
+                description=request.POST['description'],
+                employee=employee,
+                approved_for=User.objects.get(id=request.session['id']))
+            #Asigno la herramienta al Employee indicado
+            tool.assigned_at=employee
+            tool.save()
+            if '_save' in request.POST:
+                return redirect('/home/moves')
+            elif '_addanother' in request.POST:
+                return redirect('/home/create/moves')
+        else:
             return redirect('/home/moves')
-        elif '_addanother' in request.POST:
-            return redirect('/home/create/moves')
     else:
-        return redirect('/home/moves')
+        return redirect('/')
     #print(request.POST)
     #return HttpResponse(f"Creado")
 
