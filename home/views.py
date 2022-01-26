@@ -13,7 +13,8 @@ def validate_session(session):
         return False
 
 
-# Página de home
+# Controladores para Menu de Aplicación
+
 def home(request):
     if validate_session(request.session):
         reg_user = User.objects.get(id=request.session['id'])
@@ -69,6 +70,14 @@ def tools(request):
         return redirect('/')
 
 
+def certification(request):
+    context = {
+            'active_user':User.objects.get(id=request.session['id']),
+            'employees': employees,
+        }
+    return render(request, 'home/certification.html', context)
+
+
 #@login_required(login_url='/')
 def moves(request):
     if validate_session(request.session):
@@ -89,14 +98,11 @@ def movetype(request):
 
 
 def inform(request):
-    pass
+    return HttpResponse(f"Informes")
 
 
-#Utilizo el decorador para evitar que entre a las páginas sin estar logueado
-#se debe cambiar en settings settings.LOGIN_URL='/' The URL or named URL pattern where requests are redirected
-# for login when using the login_required() decorator
 
-#@login_required
+# . FIN Controladores para Menu de Aplicación
 
 
 # Controladores para CRUD de Empleados
@@ -186,6 +192,8 @@ def employee_add(request):
                 return redirect('/home/create/employe')
     else:
         return redirect('/home/')
+
+#. FIN Controladores para CRUD de Empleados
 
 
 # Controladores para CRUD de Herramientas
@@ -343,7 +351,13 @@ def move_add(request):
                 employee=employee,
                 approved_for=User.objects.get(id=request.session['id']))
             #Asigno la herramienta al Employee indicado
-            tool.assigned_at=employee
+            if request.POST['move_type']=='1':
+                tool.assigned_at=None
+                tool.belong_to=Warehouse.objects.get(id=request.POST['belong_to'])
+                print("Entrada")
+            else:
+                tool.assigned_at=employee
+                print("Salida")
             tool.save()
             if '_save' in request.POST:
                 return redirect('/home/moves')
@@ -361,5 +375,24 @@ def view_moves(request, id):
     return HttpResponse(f"Visualizar el movimiento {id} ")
 
 
-def certification(request):
-    return render(request, 'home/certification.html')
+def edit_certification(request, id):
+    return HttpResponse(f"Editar certificación {id} ")
+
+
+def create_certification(request):
+    context = {
+            'active_user':User.objects.get(id=request.session['id']),
+            "tools": Tool.objects.all(),
+        }
+    return render(request, 'home/create_certification.html', context=context)
+
+def delete_certification(request, id):
+    return HttpResponse(f"Eliminar certificación {id} ")
+
+
+def certification_add(request):
+    return HttpResponse(f"Agregar certificación ")
+
+
+def view_certification(request, id):
+    return HttpResponse(f"Visualizar certificación {id} ")

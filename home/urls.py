@@ -30,6 +30,13 @@ urlpatterns = [
     path('view/<int:id>/move', views.view_moves, name='view_move'),
     path('create/<str:type>/move', views.create_moves,name='create_move'),
     path('create/move_add', views.move_add,name='move_add'),
+
+    #Moves CRUD
+    path('edit/<int:id>/certification', views.edit_certification, name='edit_certification'),
+    path('delete/<int:id>/certification', views.delete_certification, name='delete_certification'),
+    path('view/<int:id>/certification', views.view_certification, name='view_certification'),
+    path('create/certification', views.create_certification,name='create_certification'),
+    path('create/certification_add', views.certification_add,name='move_add'),
     
     #path('getServicio', views.getMove, name='getmove'),
     path('read', views.read,name='read'),

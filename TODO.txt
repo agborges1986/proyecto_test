@@ -12,4 +12,6 @@
 
 7.Gestionar el borrado de elementos FOREIGN KEY constraints cuando elimino elementos de la base de datos
 
-8. Cambiar botones de Editar,Ver o Eliminar por un botón de acción con imagen
+8. Cambiar botones de Editar,Ver o Eliminar por un botón de acción con imagen.
+
+9. Modificar templates de entrada y salida de herramientas
