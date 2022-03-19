@@ -11,7 +11,7 @@ class EmployeeManager(models.Manager):
 class Employee(models.Model):
 
     #id = models.AutoField(db_column='id',primary_key=True)
-    name = models.CharField(max_length=45, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=False, default='DeFault_Name')
     last_name = models.CharField(max_length=45, blank=True, null=True)
     position = models.CharField(max_length=45, blank=True, null=True)
     area = models.CharField(max_length=45, blank=True, null=True)
@@ -25,7 +25,7 @@ class Employee(models.Model):
 
 
 class Warehouse(models.Model):
-    name = models.CharField(max_length=45, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=False,default='Bodega_DeFault')
 
 
 class ToolManager(models.Manager):
@@ -38,7 +38,7 @@ class ToolManager(models.Manager):
 class Tool(models.Model):
     # Incluir las fechas de certificación, vencimiento y períodos y accesos a documentos
     #id = models.AutoField(db_column='id',primary_key=True)
-    name = models.CharField(max_length=45, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=False, default='Tool_DeFault')
     serie = models.CharField(max_length=30, blank=True, null=True)
     model = models.CharField(max_length=45, blank=True, null=True)
     provider = models.CharField(max_length=45, blank=True, null=True)
@@ -126,6 +126,9 @@ class Move(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     approved_for = models.ForeignKey(
         User, related_name='user_approved', on_delete=models.CASCADE)
+    #Cambio asociado a tipo de documento y su número en cada movimiento generado
+    document_type = models.CharField(max_length=255, blank=True, null=True)
+    document_number = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

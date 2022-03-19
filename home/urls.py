@@ -36,7 +36,7 @@ urlpatterns = [
     path('delete/<int:id>/certification', views.delete_certification, name='delete_certification'),
     path('view/<int:id>/certification', views.view_certification, name='view_certification'),
     path('create/certification', views.create_certification,name='create_certification'),
-    path('create/certification_add', views.certification_add,name='move_add'),
+    path('create/certification_add', views.certification_add,name='certification_add'),
     
     #path('getServicio', views.getMove, name='getmove'),
     path('read', views.read,name='read'),

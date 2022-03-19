@@ -10,8 +10,10 @@
 
 6. Modificar los informes del datatables para que sean más legibles
 
-7.Gestionar el borrado de elementos FOREIGN KEY constraints cuando elimino elementos de la base de datos
+7. Gestionar el borrado de elementos FOREIGN KEY constraints cuando elimino elementos de la base de datos
 
 8. Cambiar botones de Editar,Ver o Eliminar por un botón de acción con imagen.
 
 9. Modificar templates de entrada y salida de herramientas
+
+10. Añadir Modelo a la Herramienta
